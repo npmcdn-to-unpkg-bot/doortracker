@@ -25,15 +25,13 @@ Route::get('/',function(){
 |
 */
 
-Route::group(['as' => 'api' ], function(){
+Route::group(['namespace' => 'Api' ],function(){
 
-	Route::group(['as' => 'v1' ], function(){
+	Route::group(['namsepace' => 'Version1'],function(){
 
-		Route::group(['as' => 'issue' ], function(){
-
-			# Get all records
-			Route::get('/',									['as' => '', 'uses' => 'Api\Version1\IssueController@all']);
-		});
+		# Get all records
+		Route::get('/api/v1/issues',				['as' => 'index', 'uses' => 'Version1\IssueController@all']);
+	
 	});
 
 });

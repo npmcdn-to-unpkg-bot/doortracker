@@ -10,7 +10,20 @@ class IssueController extends Controller{
 	 *
 	 * @var
 	 */
-	protected $model = 'App/Issue';
+	protected $model = 'App\Issue';
+
+	/**
+     * List of all fields
+     *
+     * @var array
+     */
+    protected $fields = [
+        'name' => [],
+        'description' => [],
+        'status' => [],
+        'priority' => [],
+        'author_id' => []
+    ];
 
 	/**
 	 * Retrieve all data
