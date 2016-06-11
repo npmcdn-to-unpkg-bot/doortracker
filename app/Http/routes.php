@@ -29,11 +29,11 @@ Route::group(['namespace' => 'Api' ],function(){
 
 		# Get all records
 		Route::get('/api/v1/issues',				['as' => 'index', 'uses' => 'IssueController@all']);
-		Route::get('/api/v1/issue/{id}',			['as' => 'get', 'uses' => 'IssueController@get']);
-		
-		Route::post('/api/v1/issue',				['as' => 'add', 'uses' => 'IssueController@add']);
-		Route::post('/api/v1/issue/{id}',			['as' => 'edit', 'uses' => 'IssueController@edit']);
-		Route::delete('/api/v1/issue/{id}',			['as' => 'delete', 'uses' => 'IssueController@delete']);
+		Route::get('/api/v1/issues/{id}',			['as' => 'get', 'uses' => 'IssueController@get']);
+
+		Route::post('/api/v1/issues',				['as' => 'add', 'uses' => 'IssueController@add']);
+		Route::post('/api/v1/issues/{id}',			['as' => 'edit', 'uses' => 'IssueController@edit']);
+		Route::delete('/api/v1/issues/{id}',			['as' => 'delete', 'uses' => 'IssueController@delete']);
 	
 	});
 
