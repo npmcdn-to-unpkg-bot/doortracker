@@ -14,11 +14,11 @@ class Controller extends BaseController{
 	protected $model;
 
 	/**
-	 * Array of fields
+	 * Schema
 	 *
 	 * @var
 	 */
-	protected $fields;
+	protected $__schema;
 
 	/**
 	 * Retrieve all data
@@ -27,8 +27,8 @@ class Controller extends BaseController{
 	 */
 	public function all(){
 		
-
-		$resources = call_user_func($this -> model.'::select',$this -> getFieldsName()) -> get() -> toArray();
+		$schema = $this -> getSchema();
+		$resources = call_user_func($this -> model.'::select',$schema -> getFieldsName()) -> get() -> toArray();
 
 		$response = [
 			'status' => 'Success',
@@ -40,12 +40,10 @@ class Controller extends BaseController{
 	}
 
 	/**
-	 * Retrieve fields name
-	 *
-	 * @return Array
+	 * Get schema
 	 */
-	public function getFieldsName(){
-		return array_keys($this -> fields);
+	public function getSchema(){
+		return new $this -> __schema();
 	}
 
 }

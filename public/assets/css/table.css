@@ -1,0 +1,13 @@
+.table{
+	width:100%;
+}
+
+.row{
+	display:flex;
+}
+
+.cell{
+	padding:10px;
+	flex-grow:1;
+	width:100%;
+}

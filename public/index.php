@@ -7,6 +7,8 @@
  * @author   Taylor Otwell <taylorotwell@gmail.com>
  */
 
+define("PATH",dirname($_SERVER['PHP_SELF']));
+
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader

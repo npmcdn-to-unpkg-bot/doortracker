@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/',function(){
-	return view('welcome');
-});
+Route::get('/',										['as' => 'index', 'uses' => 'PublicController@index']);
 
 
 /*
@@ -27,10 +25,10 @@ Route::get('/',function(){
 
 Route::group(['namespace' => 'Api' ],function(){
 
-	Route::group(['namsepace' => 'Version1'],function(){
+	Route::group(['namespace' => 'Version1'],function(){
 
 		# Get all records
-		Route::get('/api/v1/issues',				['as' => 'index', 'uses' => 'Version1\IssueController@all']);
+		Route::get('/api/v1/issues',				['as' => 'index', 'uses' => 'IssueController@all']);
 	
 	});
 

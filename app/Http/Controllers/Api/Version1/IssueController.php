@@ -13,17 +13,11 @@ class IssueController extends Controller{
 	protected $model = 'App\Issue';
 
 	/**
-     * List of all fields
-     *
-     * @var array
-     */
-    protected $fields = [
-        'name' => [],
-        'description' => [],
-        'status' => [],
-        'priority' => [],
-        'author_id' => []
-    ];
+	 * Name of Schema
+	 *
+	 * @var
+	 */
+	protected $__schema = 'App\Schema\Issue';
 
 	/**
 	 * Retrieve all data
