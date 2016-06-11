@@ -1,7 +1,8 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "name": "doortracker/doortracker",
+    "description": "Open source issue tracker.",
+	"version": "0.0.1",
+    "keywords": ["issue", "tracker", "open"],
     "license": "MIT",
     "type": "project",
     "require": {
