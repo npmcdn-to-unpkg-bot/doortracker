@@ -33,3 +33,23 @@ Route::group(['namespace' => 'Api' ],function(){
 	});
 
 });
+
+
+
+// testing...
+Route::get('issue', function() {
+	return view('issueList');
+});
+
+
+/* 
+ * More resources go here.
+ *
+ */
+/*
+Route::group(['prefix' => 'xtrack/api'], function(){
+	Route::resource('items', 'ItemController',
+		['only' => ['index', 'show', 'store', 'update', 'destroy']]);
+
+});
+*/
