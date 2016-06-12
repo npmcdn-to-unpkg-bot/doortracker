@@ -23,7 +23,12 @@
 
 	<div class="form-group">
 		<label for="">Priority</label>
-		<input type="number" class="form-control" placeholder="" ng-model="newIssue.priority" required="required">
+		<select class="form-control" name="Priority">
+		<option value="1"> Blocker </option>
+		<option value="2"> Must fix before Release </option>
+		<option value="3"> Important </option>
+		</select>
+		<!-- <input type="number" class="form-control" placeholder="" ng-model="newIssue.priority" required="required"> -->
 	</div>
 	
 
