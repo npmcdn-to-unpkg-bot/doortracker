@@ -33,17 +33,10 @@ Route::group(['namespace' => 'Api' ],function(){
 
 		Route::post('/api/v1/issues',				['as' => 'add', 'uses' => 'IssueController@add']);
 		Route::post('/api/v1/issues/{id}',			['as' => 'edit', 'uses' => 'IssueController@edit']);
-		Route::delete('/api/v1/issues/{id}',			['as' => 'delete', 'uses' => 'IssueController@delete']);
+		Route::delete('/api/v1/issues/{id}',		['as' => 'delete', 'uses' => 'IssueController@delete']);
 	
 	});
 
-});
-
-
-
-// testing...
-Route::get('issue', function() {
-	return view('issueList');
 });
 
 

@@ -21,7 +21,7 @@ class PublicController extends BaseController{
 	 * @param Request $request
 	 */
 	public function index(Request $request){
-		return view('index',['schema' => $this -> getSchemaIssue()]);
+		return view('app',['schema' => $this -> getSchemaIssue()]);
 	}
 
 	/**

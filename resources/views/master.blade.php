@@ -1,6 +1,5 @@
-
 <!DOCTYPE html>
-<html lang="">
+<html ng-app="DoorTrack" lang="en">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,27 +21,21 @@
         @show        
     </head>
     <body>
-        
-
         <div class="content">
             <div class="container">
                 @yield('body')
-                @section('scripts')
-                @show
-                
             </div>
-
-            
-
         </div>
-            
-    </body>
+    
+        @section('scripts')
+        
+            <!-- jQuery -->
+            <script src="//code.jquery.com/jquery.js"></script>
 
+            <!-- Bootstrap JavaScript -->
+            <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-        <!-- jQuery -->
-        <script src="//code.jquery.com/jquery.js"></script>
-        <!-- Bootstrap JavaScript -->
-        <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        @show
     </body>
 </html>
 
