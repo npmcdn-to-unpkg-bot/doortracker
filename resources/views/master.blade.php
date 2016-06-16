@@ -17,6 +17,8 @@
         <![endif]-->
 
         @section('styles')
+		
+		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
 
         @show        
     </head>
@@ -34,6 +36,8 @@
 
             <!-- Bootstrap JavaScript -->
             <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+			
+			<script src="http://demos.creative-tim.com/js/login-register.js" type="text/javascript"></script>
 
         @show
     </body>
