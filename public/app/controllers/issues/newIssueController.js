@@ -20,7 +20,7 @@ NewIssueController
 	      	{id: '2', name: 'Must fix before Release'},
 	      	{id: '3', name: 'Important'}
     	],
-    	type: {id: '1', name: 'Blocker'} //default
+    	default: {id: '1', name: 'Blocker'} 
     };
 
 
@@ -42,7 +42,21 @@ NewIssueController
 
 		// get the author id.
 		$scope.newIssue.author_id = USER_ID; // temporary solution
-		//$scope.newIssue.priority = $scope.issueType.type.id; 
+		//$scope.newIssue.priority = $scope.issueType.type.id;
+		if (!$scope.newIssue.priority) {
+
+			if (debug) {
+				console.log('No priority selected');		
+				console.log('using default: ' + $scope.issueType.default.id);
+			}
+
+			$scope.newIssue.priority = $scope.issueType.default;
+				
+
+			//return false;
+		} else {
+
+		}
 
 		// Construct the issue.
 		var issue = constructIssue($scope.newIssue);
@@ -182,13 +196,10 @@ function messageWatcher(newValue) {
  * @return Array
  */
 function constructIssue(newIssue) {
-
-	if (!newIssue.priority) {
-		newIssue.priority.id = "1"; 
-	}
 	
 	console.log(newIssue);
 	console.log(newIssue.priority);
+	console.log(newIssue.priority.id);
 	var issue = {
 			name: newIssue.name,
 			description: newIssue.description,
