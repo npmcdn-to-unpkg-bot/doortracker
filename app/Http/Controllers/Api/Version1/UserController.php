@@ -4,22 +4,23 @@ namespace App\Http\Controllers\Api\Version1;
 
 use Illuminate\Http\Request;
 
+use App\Http\Requests;
 
-class IssueController extends Controller{
-
-	/**
+class UserController extends Controller
+{
+    /**
 	 * Name of model
 	 *
 	 * @var
 	 */
-	protected $model = 'App\Issue';
+	protected $model = 'App\User';
 
 	/**
 	 * Name of Schema
 	 *
 	 * @var
 	 */
-	protected $__schema = 'App\Schema\Issue';
+	protected $__schema = 'App\Schema\User';
 
 	/**
 	 * All
@@ -78,20 +79,4 @@ class IssueController extends Controller{
 	public function delete($id,Request $request){
 		return parent::delete($id,$request);
 	}
-
-	/**
-	 * Get issue author.
-	 *
-	 * @param int $id
-	 * @param Request $request
-	 *
-	 * @return Response
-	 */
-	public function getAuthor($id,Request $request){
-		return parent::getAuthor($id,$request);
-	}
-
-
-
-
 }

@@ -25,6 +25,15 @@ class PublicController extends BaseController{
 	}
 
 	/**
+	 * Home Route 
+	 *
+	 * @param Request $request
+	 */
+	public function home(Request $request){
+		return view('home',['schema' => $this -> getSchemaIssue()]);
+	}
+
+	/**
 	 * Return schema Issue
 	 */
 	public function getSchemaIssue(){

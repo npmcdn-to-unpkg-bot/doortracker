@@ -139,6 +139,32 @@ class Controller extends BaseController{
 	}
 
 	/**
+	 * Get Author
+	 *
+	 * @param int $id
+	 * @param Request $request
+	 *
+	 * @return Response
+	 */
+	public function getAuthor($id,Request $request){
+		
+		$schema = $this -> getSchema();
+
+
+		$resource = call_user_func($this -> model.'::where',['id' => $id]) -> first();	
+		$author = $resource -> author;
+
+
+		$response = [
+			'status' => 'Success',
+			'data' => $author -> toArray()
+		];
+
+		return $this -> json($response);
+
+	}
+
+	/**
 	 * Get schema
 	 */
 	public function getSchema(){
