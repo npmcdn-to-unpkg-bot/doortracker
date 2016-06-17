@@ -11,14 +11,16 @@
 				<th>Description</th>
 				<th>Status</th>
 				<th>Priority</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat='issue in issues'>
+			<tr ng-repeat='issue in issues | filter: search'>
 				<td>{{issue.name}}</td>
 				<td>{{issue.description}}</td>
 				<td>{{issue.status}}</td>
 				<td>{{issue.priority}}</td>
+				<td><a href="/detail/{{issue.id}}">View</a></td>
 			</tr>
 		</tbody>
 	</table>

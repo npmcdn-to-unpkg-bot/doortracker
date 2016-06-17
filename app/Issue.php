@@ -12,7 +12,7 @@ class Issue extends Model{
      * @var array
      */
     protected $fillable = [
-        'name', 'description','status','priority',
+        'name', 'description','status','priority', 'author_id',
     ];
 
 

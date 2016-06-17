@@ -1,36 +1,46 @@
-var DoorTrack = angular.module('DoorTrack', ['ngRoute', 'ngResource', 'IssueService']);
 
+/**
+ * DoorTrack App
+ *
+ */
+var DoorTrack = 
+angular.module('DoorTrack', [
+	'MainController', 
+	'NewIssueController', 
+	'DetailIssueController',  
+	'ngRoute', 
+	'ngResource',
+	'IssueService', 
+	'UserService'
+	]);
 
-DoorTrack.config(function($routeProvider, $locationProvider){
+DoorTrack
+.constant('API_URL', "/api/v1")
+.constant('USER_ID', "4") // resolve this!
+.config(function($routeProvider, $locationProvider) {
 
-	$routeProvider
+		$locationProvider.html5Mode(true);
 
-		// List of issues
-		.when('/', {
-			controller: MainController,
-			templateUrl: 'app/pages/issues/list.html'
-		})
-		
-		// Create a issue
-		.when ('/compose', {
-			controller: newIssueController,
-			templateUrl: 'app/pages/issues/new.html'
-		})
+		$routeProvider
+			.when('/', {
+				controller: 'MainController',
+				templateUrl: 'pages/issues/list'
+			})
+			.when ('/compose', {
+				controller: 'NewIssueController',
+				templateUrl: 'pages/issues/new'
+			})
+			.when ('/detail/:id', {
+				controller: 'DetailIssueController',
+				templateUrl: 'pages/issues/detail/:id'
+			})
+			.otherwise({
+				redirectTo: '/'
+			});
+})
+/*
+.controller('MainController', MainController)
+.controller('newIssueController', newIssueController)
+.controller('detailIssueController', ['$rootScope', '$scope', detailIssueController]);
 
-		.otherwise({
-			redirectTo: '/'
-		});
-
-});
-
-
-
-
-
-
-
-
-
-
-
-
+*/

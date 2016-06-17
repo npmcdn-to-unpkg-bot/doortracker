@@ -11,7 +11,12 @@
 |
 */
 
+
+/*
 Route::get('/',										['as' => 'index', 'uses' => 'PublicController@index']);
+*/
+Route::get('/',										['as' => 'home', 'uses' => 'PublicController@home']);
+
 
 
 /*
@@ -34,20 +39,50 @@ Route::group(['namespace' => 'Api' ],function(){
 		Route::post('/api/v1/issues',				['as' => 'add', 'uses' => 'IssueController@add']);
 		Route::post('/api/v1/issues/{id}',			['as' => 'edit', 'uses' => 'IssueController@edit']);
 		Route::delete('/api/v1/issues/{id}',		['as' => 'delete', 'uses' => 'IssueController@delete']);
+
+
+		// Users. 
+		Route::get('/api/v1/users',				['as' => 'index', 'uses' => 'UserController@all']);
+		Route::get('/api/v1/users/{id}',			['as' => 'get', 'uses' => 'UserController@get']);
+
+		Route::post('/api/v1/users',				['as' => 'add', 'uses' => 'UserController@add']);
+		Route::post('/api/v1/users/{id}',			['as' => 'edit', 'uses' => 'UserController@edit']);
+		Route::delete('/api/v1/users/{id}',		['as' => 'delete', 'uses' => 'UserController@delete']);
+
+
+		// Get issue author
+		Route::get('/api/v1/issues/{id}/users',			['as' => 'get', 'uses' => 'IssueController@getAuthor']);
 	
 	});
 
 });
 
-
-/* 
- * More resources go here.
- *
- */
 /*
-Route::group(['prefix' => 'xtrack/api'], function(){
-	Route::resource('items', 'ItemController',
-		['only' => ['index', 'show', 'store', 'update', 'destroy']]);
-
-});
+|--------------------------------------------------------------------------
+| Views
+|--------------------------------------------------------------------------
+|
+| All app pages.
+|
 */
+
+Route::group(['prefix' => 'pages'], function(){
+
+	Route::group(['prefix' => 'issues'], function() {
+
+		Route::get('/list', function() {
+			return view('pages.issues.list');
+		});
+
+		Route::get('/new', function() {
+			return view('pages.issues.new');
+		});
+
+		Route::get('/detail/{id}', function() {
+			return view('pages.issues.detail');
+		});
+
+
+	});
+});
+

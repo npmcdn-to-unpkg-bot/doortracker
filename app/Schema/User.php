@@ -2,7 +2,7 @@
 
 namespace App\Schema;
 
-class Issue extends Schema{
+class User extends Schema{
    
     /**
      * List of all fields
@@ -12,10 +12,7 @@ class Issue extends Schema{
     protected $fields = [
         'id' => [],
         'name' => [],
-        'description' => [],
-        'status' => [],
-        'priority' => [],
-        'author_id' => [],
-        'created_at' => [],
+        'email' => [],
+        'password' => [],
     ];
 }
