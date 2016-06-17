@@ -14,13 +14,14 @@ NewIssueController
 	$scope.showMessageFlag = false;
 	$scope.setAlert = setAlert;
 
+	// Issue type list. To be gathered dynamically.
 	$scope.issueType = {
     	types: [
 	      	{id: '1', name: 'Blocker'},
 	      	{id: '2', name: 'Must fix before Release'},
 	      	{id: '3', name: 'Important'}
     	],
-    	default: {id: '1', name: 'Blocker'} 
+    	selected: {id: '1', name: 'Blocker'} 
     };
 
 
@@ -42,21 +43,23 @@ NewIssueController
 
 		// get the author id.
 		$scope.newIssue.author_id = USER_ID; // temporary solution
-		//$scope.newIssue.priority = $scope.issueType.type.id;
+		$scope.newIssue.priority = $scope.issueType.selected.id;
+
+		/*
 		if (!$scope.newIssue.priority) {
 
 			if (debug) {
+				console.log($scope.newIssue.priority);
 				console.log('No priority selected');		
 				console.log('using default: ' + $scope.issueType.default.id);
 			}
 
 			$scope.newIssue.priority = $scope.issueType.default;
+			console.log($scope.newIssue.priority );
 				
 
 			//return false;
-		} else {
-
-		}
+		*/
 
 		// Construct the issue.
 		var issue = constructIssue($scope.newIssue);
@@ -85,7 +88,6 @@ NewIssueController
 				
 
 				// Show success message
-				
 				showSuccessMessage($scope, 'Issue created!','The issue has been created successfully.');
 
 				// Redirect here.
@@ -110,9 +112,6 @@ NewIssueController
 				return false;
 			});
 
-
-			//$scope.$watch('showMessageFlag', messageWatcher);
-
 	};
 
 	// hide alert msg
@@ -121,7 +120,7 @@ NewIssueController
 	};
 
 
-}); /** End of newIssueController **/
+}); 
 
 
 /** 
@@ -197,14 +196,12 @@ function messageWatcher(newValue) {
  */
 function constructIssue(newIssue) {
 	
-	console.log(newIssue);
-	console.log(newIssue.priority);
-	console.log(newIssue.priority.id);
+
 	var issue = {
 			name: newIssue.name,
 			description: newIssue.description,
 			status: newIssue.status,
-			priority: newIssue.priority.id, // handled by number
+			priority: newIssue.priority, // handled by number
 			//author_id: getUserId()
 			//author_id: USER_ID
 			author_id: newIssue.author_id
