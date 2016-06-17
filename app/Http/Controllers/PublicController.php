@@ -20,7 +20,7 @@ class PublicController extends BaseController{
 	 *
 	 * @param Request $request
 	 */
-	public function home(Request $request){
+	public function index(Request $request){
 		return view('app',['schema' => $this -> getSchemaIssue()]);
 	}
 
