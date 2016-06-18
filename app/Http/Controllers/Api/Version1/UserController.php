@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-class UserController extends Controller
-{
+class UserController extends AbstractController{
+
     /**
 	 * Name of model
 	 *
@@ -79,4 +79,18 @@ class UserController extends Controller
 	public function delete($id,Request $request){
 		return parent::delete($id,$request);
 	}
+	
+	/**
+	 * Get issue author.
+	 *
+	 * @param int $id
+	 * @param Request $request
+	 *
+	 * @return Response
+	 */
+	public function getAuthor($id,Request $request){
+		return parent::getAuthor($id,$request);
+	}
+
+
 }

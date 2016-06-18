@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Version1;
 use App\Http\Controllers\Api\Controller as BaseController;
 use Illuminate\Http\Request;
 
-class Controller extends BaseController{
+class AbstractController extends BaseController{
 
 	/**
 	 * Name of model

@@ -32,7 +32,7 @@ Route::group(['namespace' => 'Api' ],function(){
 
 	Route::group(['namespace' => 'Version1'],function(){
 
-		# Get all records
+		# Issues
 		Route::get('/api/v1/issues',				['as' => 'index', 'uses' => 'IssueController@all']);
 		Route::get('/api/v1/issues/{id}',			['as' => 'get', 'uses' => 'IssueController@get']);
 
@@ -41,17 +41,29 @@ Route::group(['namespace' => 'Api' ],function(){
 		Route::delete('/api/v1/issues/{id}',		['as' => 'delete', 'uses' => 'IssueController@delete']);
 
 
-		// Users. 
-		Route::get('/api/v1/users',				['as' => 'index', 'uses' => 'UserController@all']);
+		# Users 
+		Route::get('/api/v1/users',					['as' => 'index', 'uses' => 'UserController@all']);
 		Route::get('/api/v1/users/{id}',			['as' => 'get', 'uses' => 'UserController@get']);
 
 		Route::post('/api/v1/users',				['as' => 'add', 'uses' => 'UserController@add']);
 		Route::post('/api/v1/users/{id}',			['as' => 'edit', 'uses' => 'UserController@edit']);
-		Route::delete('/api/v1/users/{id}',		['as' => 'delete', 'uses' => 'UserController@delete']);
+		Route::delete('/api/v1/users/{id}',			['as' => 'delete', 'uses' => 'UserController@delete']);
 
 
-		// Get issue author
-		Route::get('/api/v1/issues/{id}/users',			['as' => 'get', 'uses' => 'IssueController@getAuthor']);
+		# Get issue author
+		Route::get('/api/v1/issues/{id}/users',		['as' => 'get', 'uses' => 'IssueController@getAuthor']);
+
+		# Get token session
+		Route::post('/api/v1/auth/',			['as' => 'get', 'uses' => 'AuthController@login']);
+
+		# Check if a token/session is still valid
+		Route::get('/api/v1/auth/{token}',	 		['as' => 'get', 'uses' => 'AuthController@check']);
+
+		# Delete a session
+		Route::delete('/api/v1/auth/{token}',	 	['as' => 'get', 'uses' => 'AuthController@logout']);
+
+		# Temp, create a user
+		Route::get('/api/v1/createUser',			['as' => 'get', 'uses' => 'AuthController@createUser']);
 	
 	});
 

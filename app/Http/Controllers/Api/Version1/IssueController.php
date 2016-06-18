@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Version1;
 use Illuminate\Http\Request;
 
 
-class IssueController extends Controller{
+class IssueController extends AbstractController{
 
 	/**
 	 * Name of model
@@ -78,19 +78,6 @@ class IssueController extends Controller{
 	public function delete($id,Request $request){
 		return parent::delete($id,$request);
 	}
-
-	/**
-	 * Get issue author.
-	 *
-	 * @param int $id
-	 * @param Request $request
-	 *
-	 * @return Response
-	 */
-	public function getAuthor($id,Request $request){
-		return parent::getAuthor($id,$request);
-	}
-
 
 
 
