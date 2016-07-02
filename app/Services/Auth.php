@@ -19,7 +19,8 @@ class Auth{
     	# Delete expired Session
     	Auth::expired();
     	
-    	$user = User::where(['name' => $data['name']]) -> first();
+    	//$user = User::where(['name' => $data['name']]) -> first();
+        $user = User::where(['email' => $data['email']]) -> first();
 
     	# If user doesn't exists
     	if(!$user){

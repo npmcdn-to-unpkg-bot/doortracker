@@ -18,7 +18,6 @@ Route::get('/',										['as' => 'index', 'uses' => 'PublicController@index']);
 Route::get('/',										['as' => 'home', 'uses' => 'PublicController@home']);
 
 
-
 /*
 |--------------------------------------------------------------------------
 | API
@@ -62,9 +61,12 @@ Route::group(['namespace' => 'Api' ],function(){
 		# Delete a session
 		Route::delete('/api/v1/auth/{token}',	 	['as' => 'get', 'uses' => 'AuthController@logout']);
 
-		# Temp, create a user
+		# Temp, create an user
 		Route::get('/api/v1/createUser',			['as' => 'get', 'uses' => 'AuthController@createUser']);
-	
+
+		# Get token session
+		Route::post('/auth/login',			['as' => 'get', 'uses' => 'AuthController@login']);
+
 	});
 
 });
@@ -96,5 +98,26 @@ Route::group(['prefix' => 'pages'], function(){
 
 
 	});
+});
+
+/*
+|--------------------------------------------------------------------------
+| Testing
+|--------------------------------------------------------------------------
+*/
+
+// API routes
+Route::group(['prefix' => 'api'], function(){
+	
+	// JWTAuth
+	Route::resource('authenticate', 'AuthenticationController', 
+		['only' => ['index']]);
+	
+	Route::post('authenticate', 'AuthenticationController@authenticate');
+});
+
+// Login form
+Route::get('/auth/login', function() {
+	return view('auth.login');
 });
 

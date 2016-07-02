@@ -1,3 +1,11 @@
+/**
+ * UserService.js
+ */
+(function() {
+
+	'use strict';
+
+
 // This is somehow redundant.
 // No worries, I'll rewrite the whole thing in a more compact, simpler way.
 angular.module('UserService', [])
@@ -33,7 +41,7 @@ angular.module('UserService', [])
 				});
 			},
 			
-			// destroy 
+			// Destroy 
 			destroy: function(url){
 				return $http.delete(url);
 			}
@@ -41,3 +49,6 @@ angular.module('UserService', [])
 
 
 	});
+
+})();
+

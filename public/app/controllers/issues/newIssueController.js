@@ -1,126 +1,47 @@
 /**
- * NewIssueController 
- *
+ * NewIssueController.js
+ *  
+ * Handles the issue creation.
+
  */
-var NewIssueController = angular.module('NewIssueController', ['ngResource', 'IssueService']);
+(function(){
 
-NewIssueController
-.controller('NewIssueController', function($scope, $http, Issue, API_URL, USER_ID) {
+	'use strict';
 
+	var NewIssueController = angular.module('NewIssueController', ['ngResource', 'IssueService']);
 
-	var API_ISSUE_URL = API_URL + '/issues/';
-	$scope.error = {};
-	
-	$scope.showMessageFlag = false;
-	$scope.setAlert = setAlert;
+	NewIssueController
+	.controller('NewIssueController', function($scope, $http, Issue, API_URL, USER_ID) {
 
-	// Issue type list. To be gathered dynamically.
-	$scope.issueType = {
-    	types: [
-	      	{id: '1', name: 'Blocker'},
-	      	{id: '2', name: 'Must fix before Release'},
-	      	{id: '3', name: 'Important'}
-    	],
-    	selected: {id: '1', name: 'Blocker'} 
-    };
+		var vm = this;
 
+		vm.API_ISSUE_URL = API_URL + '/issues/';
+		vm.error = {};
 
-	/**
-	 * Create an issue.
-	 *
-	 * @return boolean
-	 */
-	$scope.createIssue = function(isValid) {
+		// alert message
+		vm.showMessageFlag = false;
+		vm.setAlert = setAlert;
+		vm.hideAlert = hideAlert;
 
-		$scope.submitted = true; 
+		// Issue type list. To be gathered dynamically.
+		vm.issueType = {
+	    	types: [
+		      	{id: '1', name: 'Blocker'},
+		      	{id: '2', name: 'Must fix before Release'},
+		      	{id: '3', name: 'Important'}
+	    	],
+	    	selected: {id: '1', name: 'Blocker'} 
+	    };
 
-		if (!isValid) {
-			showErrorMessage($scope, 'Invalid input provided',
-				'Please provide valid values for the issue.');
+	    vm.createIssue = function(isValid) {
+	    	createIssue(vm, isValid, Issue);
+	    }
 
-			return false;
-		}
+	}); 
 
-		// get the author id.
-		$scope.newIssue.author_id = USER_ID; // temporary solution
-		$scope.newIssue.priority = $scope.issueType.selected.id;
-
-		/*
-		if (!$scope.newIssue.priority) {
-
-			if (debug) {
-				console.log($scope.newIssue.priority);
-				console.log('No priority selected');		
-				console.log('using default: ' + $scope.issueType.default.id);
-			}
-
-			$scope.newIssue.priority = $scope.issueType.default;
-			console.log($scope.newIssue.priority );
-				
-
-			//return false;
-		*/
-
-		// Construct the issue.
-		var issue = constructIssue($scope.newIssue);
+})();
 
 
-		// Validate user's input.
-		if (!validateInput($scope.newIssue)) {
-			showErrorMessage($scope, 'Invalid input provided',
-				'Please provide valid values for the issue.');
-			
-			return false;
-		}
-		
-
-		// Save the issue.
-		Issue.save(API_ISSUE_URL, issue)
-			.success(function(data, status, headers, config) {
-				
-				if (debug) {
-					console.log("Issue created!");
-				}
-
-				$scope.newIssue = {}; // clean up the fields
-				$scope.error = {}; // clean up errors
-				$scope.submitted = false; 
-				
-
-				// Show success message
-				showSuccessMessage($scope, 'Issue created!','The issue has been created successfully.');
-
-				// Redirect here.
-
-				return true;
-			})
-			.error(function(data, status, headers, config) {
-
-				if (debug) {
-					console.log("Error: " + status);
-					console.log(data);
-				}
-
-				//$scope.error = ; // define error
-				$scope.submitted = false;
-
-				// Show error message
-				showErrorMessage($scope, 'Can\'t create issue.',
-					'An error occurred while creating the issue. ' 
-					+ 'Please check your internet connection.');
-				
-				return false;
-			});
-
-	};
-
-	// hide alert msg
-	$scope.hideAlert = function() {
-		$scope.showMessageFlag = false;
-	};
-
-
-}); 
 
 
 /** 
@@ -147,11 +68,10 @@ function validateInput(newItem) {
 /** 
  * Set alert fields.
  *
- * @param Object $scope
  * @param String type [Bootstrap alert-type]
  * @param String title
  * @param String message
- * @return Array alert
+ * @return Object alert
  */
 function setAlert(type, title, message) {
 	var alert = {};
@@ -178,12 +98,12 @@ function messageWatcher(newValue) {
 					/*
 					console.log('------');
 					console.log('Watch: ');
-					console.log('$scope.alert: ' + $scope.alert);
-					console.log('$scope.alert.type: ' + $scope.alert.type);
-					console.log('showMessage: ' + $scope.showMessage);
+					console.log('vm.alert: ' + vm.alert);
+					console.log('vm.alert.type: ' + vm.alert.type);
+					console.log('showMessage: ' + vm.showMessage);
 					//console.log('newValue: ' + newValue);
 					console.log('------');
-					//$scope.alert = newValue;
+					//vm.alert = newValue;
 					*/
 				}
 }
@@ -194,17 +114,16 @@ function messageWatcher(newValue) {
  *
  * @return Array
  */
-function constructIssue(newIssue) {
-	
+function constructIssue(issue) {
 
 	var issue = {
-			name: newIssue.name,
-			description: newIssue.description,
-			status: newIssue.status,
-			priority: newIssue.priority, // handled by number
+			name: issue.name,
+			description: issue.description,
+			status: issue.status,
+			priority: issue.priority, // handled by number
 			//author_id: getUserId()
 			//author_id: USER_ID
-			author_id: newIssue.author_id
+			author_id: issue.author_id
 		};
 
 	return issue;
@@ -213,26 +132,28 @@ function constructIssue(newIssue) {
 
 // Operation result messages.
 
-function showSuccessMessage($scope, title, description) {
-	showMessage($scope, 'success', title, description);
+function showSuccessMessage(vm, title, description) {
+	showMessage(vm, 'success', title, description);
 }
 
-function showErrorMessage($scope, title, description) {
-	showMessage($scope, 'danger', title, description);
+function showErrorMessage(vm, title, description) {
+	showMessage(vm, 'danger', title, description);
 }
 
 /** 
- * Show message.
+ * Show alert message.
  *
+ * @param Object vm
  * @param String type
  * @param String title
  * @param String description
+ * @return null
  */
-function showMessage($scope, type, title, description) {
+function showMessage(vm, type, title, description) {
 
 	if (debug) {
 		console.log('showMessage.type: ' + type);
-		console.log('showMessageFlag: ' + $scope.showMessageFlag);
+		console.log('showMessageFlag: ' + vm.showMessageFlag);
 	}
 	
 	var alert = setAlert(
@@ -241,11 +162,91 @@ function showMessage($scope, type, title, description) {
 				description
 				);
 
-	$scope.alert = alert;
-	$scope.showMessageFlag = true;	
+	vm.alert = alert;
+	vm.showMessageFlag = true;	
 }
 
+// hide alert msg
+	function hideAlert(vm) {
+		vm.showMessageFlag = false;
+	}
 
+
+	/**
+	 * Create an issue.
+	 *
+	 * @param boolean isValid
+	 * @param Service Issue
+	 * @return boolean
+	 */
+	 function createIssue(vm, isValid, Issue) {
+
+		vm.submitted = true; 
+
+		if (!isValid) {
+			showErrorMessage(vm, 'Invalid input provided',
+				'Please provide valid values for the issue.');
+
+			return false;
+		}
+
+		// get the author id.
+		vm.issue.author_id = vm.USER_ID; // temporary solution
+		vm.issue.priority = vm.issueType.selected.id;
+
+
+		// Construct the issue.
+		var issue = constructIssue(vm.issue);
+
+
+		// Validate user's input.
+		if (!validateInput(vm.issue)) {
+			showErrorMessage(vm, 'Invalid input provided',
+				'Please provide valid values for the issue.');
+			
+			return false;
+		}
+		
+
+		// Save the issue.
+		Issue.save(vm.API_ISSUE_URL, issue)
+			.success(function(data, status, headers, config) {
+				
+				if (debug) {
+					console.log("Issue created!");
+				}
+
+				vm.issue = {}; // clean up the fields
+				vm.error = {}; // clean up errors
+				vm.submitted = false; 
+				
+
+				// Show success message
+				showSuccessMessage(vm, 'Issue created!','The issue has been created successfully.');
+
+				// Redirect here.  --state setting
+
+				return true;
+			})
+			.error(function(data, status, headers, config) {
+
+				if (debug) {
+					console.log("Error: " + status);
+					console.log(data);
+				}
+
+				//vm.error = ; // define error
+				vm.submitted = false;
+
+				// Show error message
+				showErrorMessage(vm, 'Can\'t create issue.',
+					'An error occurred while creating the issue. ' 
+					+ 'Please check your internet connection.');
+				
+				return false;
+			});
+
+	}
 
 
 /*****************************************************************

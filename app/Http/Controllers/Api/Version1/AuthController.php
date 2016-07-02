@@ -47,7 +47,8 @@ class AuthController extends BaseController{
 	 */
 	public function login(Request $request){
 
-		$session = Auth::attempt($request -> only('name','password'));
+		//$session = Auth::attempt($request -> only('name','password'));
+		$session = Auth::attempt($request -> only('email','password'));
 
 		if(!$session){
 

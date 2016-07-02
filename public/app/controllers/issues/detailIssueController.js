@@ -1,85 +1,81 @@
 
 /** 
- * DetailIssueController
+ * DetailIssueController.js
  *
+ * Handles the single issue details view.
  */
-var DetailIssueController = angular.module('DetailIssueController', ['ngResource', 'ngRoute', 'IssueService', 'UserService']);
+(function() {
 
-DetailIssueController
-.controller('DetailIssueController', 
-	function($rootScope, $scope, $http, $routeParams, Issue, User, API_URL, USER_ID, $q) {
-	
-	
-	var id = $routeParams.id;
-	var API_ISSUE_URL = API_URL + '/issues/' + id;
-	var API_AUTHOR_URL = API_ISSUE_URL + '/users/';
-	
+	'use strict';
 
-	//$scope.author = {};
+	var DetailIssueController = angular.module('DetailIssueController', ['ngResource', 'ngRoute', 'IssueService', 'UserService']);
 
-	getIssues($scope, Issue, API_ISSUE_URL); // retrieve issue list
-	getUserInfo($scope, User, API_AUTHOR_URL); // retrieve author
-	
-	
-
-	
-	/*
-	$scope.$watch('rootScope.author_id', function(event, data) {
-		console.log('----');
-		console.log('Watch');
-		console.log('detailIssueController, author_id: ' + $rootScope.author_id);
-	});
-	*/
-
-
-});
-
-
-	/**
-	 * Get details about an issue.
-	 *
-	 * @param $scope
-	 * @param module Issue
-	 * @param String url
-	 */
-function getIssues($scope, Issue, url) {
-	
-	 Issue.get(url)
-	 	.success(function (data, status, headers, config) {
-	 		
-	 		$scope.issue = data.data;
-	 		//var delay = $q.defer();
-	 		//delay.resolve(data);
-
-	 	})
-	 	.error(function (data, status, headers, config) {
-	 		if (debug) {
-	 			console.log("Error: " + status);
-	 		}
-	 	});
+	DetailIssueController
+	.controller('DetailIssueController', 
+		function($rootScope, $scope, $http, $routeParams, Issue, User, API_URL, USER_ID, $q) {
 		
-}
+		var vm = this;
 
-	/**
-	 * Get details about the author.
-	 *
-	 * @param $scope
-	 * @param module User
-	 * @param String url
-	 */
-function getUserInfo($scope, User, url) {
+		var id = $routeParams.id;
+		var API_ISSUE_URL = API_URL + '/issues/' + id;
+		var API_AUTHOR_URL = API_ISSUE_URL + '/users/';
+		
 
-	 User.get(url)
-	 	.success(function (data, status, headers, config) {
-	 		$scope.author = data.data;
+		//$scope.author = {};
 
-	 	})
-	 	.error(function (data, status, headers, config) {
+		getIssues(vm, API_ISSUE_URL, Issue); // retrieve issue list
+		getUserInfo(vm, API_AUTHOR_URL, User); // retrieve author info
+		
 
-	 		if (debug) {
-	 			console.log("Error: " + status);
-	 		}
+	});
 
-	 	});
-}
 
+		/**
+		 * Get details about an issue.
+		 *
+		 * @param Object vm
+		 * @param module Issue
+		 * @param String url
+		 */
+	function getIssues(vm, url, Issue) {
+		
+		 Issue.get(url)
+		 	.success(function (data, status, headers, config) {
+		 		
+		 		vm.issue = data.data;
+
+		 		//var delay = $q.defer();
+		 		//delay.resolve(data);
+
+		 	})
+		 	.error(function (data, status, headers, config) {
+		 		if (debug) {
+		 			console.log("Error: " + status);
+		 		}
+		 	});		
+	}
+
+		/**
+		 * Get details about the author.
+		 *
+		 * @param vm
+		 * @param module User
+		 * @param String url
+		 */
+	function getUserInfo(vm, url, User) {
+
+		 User.get(url)
+		 	.success(function (data, status, headers, config) {
+		 		vm.author = data.data;
+
+		 	})
+		 	.error(function (data, status, headers, config) {
+
+		 		if (debug) {
+		 			console.log("Error: " + status);
+		 		}
+
+		 	});
+	}
+
+})();

@@ -1,4 +1,12 @@
-angular.module('IssueService', [])
+
+/**
+ * IssueService.js
+ */
+(function() {
+
+	'use strict';
+
+	angular.module('IssueService', [])
 	.factory('Issue', function($http) {
 		return {
 
@@ -32,11 +40,12 @@ angular.module('IssueService', [])
 			},
 			
 
-			// destroy a message
+			// Delete
 			destroy: function(url, id){
 				return $http.delete(url + id);
 			}
 		}
 
-
 	});
+})();
+

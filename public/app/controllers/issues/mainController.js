@@ -1,112 +1,89 @@
 /**
  * MainController.js
  * 
- * @param service Issue
+ * @param Service Issue
  * @param constant String API_URL
- */ 
-var MainController = angular.module('MainController', ['ngResource', 'IssueService']);
+ */
 
-MainController
-.controller('MainController', function($rootScope, $scope, $http, Issue, API_URL, USER_ID) {
+(function() {
 
+	'use strict';
 
-	var API_ISSUE_URL = API_URL + '/issues/';
-	var debug = null;
+	var MainController = angular.module('MainController', ['ngResource', 'IssueService']);
 
-	$scope.error = {};
-	$scope.error.loading = false;
-	$scope.error.inputError = {}; // No error yet.
-	$scope.edit = {};
-	$scope.currentIssue = {};
+	MainController
+	.controller('MainController', function($rootScope, $scope, $http, Issue, API_URL, USER_ID) {
 
-	//$rootScope.author_id = '';
+		var vm = this;
 
-	//console.log('MainController: ' + $rootScope.author_id);
+		var API_ISSUE_URL = API_URL + '/issues/';
+		var debug = null; // local overriding
 
-	
-	/**
-	* TODO
-	* 
-	* API
-	* 	.issue
-	*	.notifications
-	*	[...]
-	*
-	* Use $log.
-	*/
+		// Issue type list. To be gathered dynamically.
+		vm.issueType = {
+	    	types: [
+		      	{id: '1', name: 'Blocker'},
+		      	{id: '2', name: 'Must fix before Release'},
+		      	{id: '3', name: 'Important'}
+	    	],
+	    	selected: {id: '1', name: 'Blocker'} 
+	    };
 
-	/* TODO
-	 	Get the user ID 
-	 	Default value: 4 (Guest).
-	 	*/
+		// helpers
+		vm.error = {};
+		vm.error.loading = false;
+		vm.error.inputError = {}; // No error yet.
+		vm.edit = {};
+		vm.currentIssue = {};
 
 
-	
-	
 
+		/**
+		 * CRUD operations definition.	
+		 *
+		 */
+		vm.updateIssue = function(id, index) {
+			updateIssue(vm, API_ISSUE_URL + id, index, Issue);
+		};
 
-	/**
-	* Edit an issue.
-	*
-	*/
-	$scope.editIssue = function (id) {
-		$scope.currentIssue.id = id; // Make the id visible 
-		console.log($scope.currentIssue.id);
+		//deleteIssue(vm, uri, id, Issue)
+		vm.deleteIssue = function(id) {
+			deleteIssue(vm, API_ISSUE_URL, id, Issue);
+		};
 
-	};
+		//vm.editIssue = editIssue;
+		vm.editIssue = function(id) {
+			editIssue(vm, id);
+		};
 
+		//vm.saveIssueChanges = saveIssueChanges;
+		vm.saveIssueChanges = function(isValid, id) {
+			vm.submitted = true;
 
-	/**
-	 * Update an issue.
-	 *
-	 * @param int id
-	 * @return null
-	 */
-	$scope.saveIssueChanges = function(id){
+			if (!isValid) {
+				console.log("Invalid data.");
 
-		if (debug) {
-			console.log("Saving: " + $scope.edit);
-		}
-
-		Issue.patch(API_ISSUE_URL + id, $scope.edit)
-			.success(function(data, status, headers, config) {
-				if (debug) {
-					console.log("Issue Index: " + $scope.getIssueIndex(id));
-					console.log("Issue saved");
-				}		
-
-				// update the view element
-				$scope.updateIssue(id, $scope.getIssueIndex(id));
-			})
-			.error(function(data, status, headers, config) {
-				if (debug) {
-					console.log("Shit");
-				}
-			});
-
-	};
-	
-	
-	/**
-	 * Retrieve Issue list.
-	 *
-	 */	 
-	Issue.get(API_ISSUE_URL)
-		.success(function(data, status, headers, config) {
-
-			if (debug) {
-				console.log(data.data);
-				console.log(data.status);
+				return false;
 			}
-				
-			$scope.issues = data.data;
-		})
-		.error(function(data, status, headers, config) {
-			$scope.error.loading = true;
-			// define a more accurate error description
 
-		});
-		
+			saveIssueChanges(vm, API_ISSUE_URL, id, Issue);
+		};
+
+		//vm.removeIssueFromView = removeIssueFromView;
+		vm.removeIssueFromView = function(id) {
+			removeIssueFromView(vm, id);
+		};
+
+		//vm.getIssueIndex = getIssueIndex;
+		vm.getIssueIndex = function(id) {
+			return getIssueIndex(vm, id);
+		};
+
+
+		// retrieve issue list
+		getIssueList(vm, API_ISSUE_URL, Issue);
+
+	});
 
 	/**
 	 * Remove an issue from the view.
@@ -114,22 +91,137 @@ MainController
 	 * @param int id
 	 * @return boolean
 	 */
-	$scope.removeIssueFromView = function(id) {
-		var indexIssueInArray = 0;
+	function removeIssueFromView(scope, id) {
+		var indexIssueInArray = scope.getIssueIndex(id);
 
-		if (indexIssueInArray = $scope.getIssueIndex(id)) {
-			$scope.issues.splice(indexIssueInArray, 1);
-		} else {
-			// We encountered some problem retrieving the index.
-			// Write some more invasive function
-
-			return false;
+		if (debug) {
+			console.log("removing index: " + indexIssueInArray);
 		}
+		
+		scope.issues.splice(indexIssueInArray, 1);
 
 		return true;
+	}
 
-	};
+	/**
+	* Edit an issue.
+	*
+	* @param Object
+	* @param 
+	*/
+	function editIssue(vm, id) {
+		vm.currentIssue.id = id; // Make the id visible 
 
+		// modal
+		showEditModal(id);
+
+		if (debug) {
+			console.log(vm.currentIssue.id);
+		}
+
+	}
+
+	/**
+	 * Retrieve Issue list.
+	 *
+	 * @param Object vm
+	 * @param String url
+	 * @param Service Issue
+	 * @return boolean
+	 */	
+	function getIssueList(vm, url, Issue) {
+		 
+		Issue.get(url)
+			.success(function(data, status, headers, config) {
+
+				if (debug) {
+					console.log(data.data);
+					console.log(data.status);
+				}
+				vm.issues = data.data;
+				return true;
+
+			})
+			.error(function(data, status, headers, config) {
+				vm.error.loading = true;
+				// define a more accurate error description
+
+				return false;
+
+			});
+	}
+
+	/** 
+	 * Update a single issue view.
+	 *
+	 * @param int id
+	 * @param int issueIndex 
+	 */
+	function updateIssue(vm, url, issueIndex, Issue) {
+		Issue.get(url)
+			.success(function(data, status, headers, config) {
+				vm.issues[issueIndex] = data.data;
+				
+				if (debug) {
+					console.log('Issue updated.');
+					console.log('vm.issues[' + issueIndex);
+					console.log(data.data);
+					console.log(vm.issues[issueIndex]);
+				}
+			})
+			.error(function(data, status, headers, config) {
+				//vm.issues[issueIndex] = data;
+				
+				if (debug) {
+					console.log('updateIssue(): ' + data.data);
+				}
+			});
+			// no error handling in here
+	}
+
+
+	/**
+	 * Update an issue.
+	 *
+	 * @param int id
+	 * @param String uri
+	 * @return null
+	 */
+	function saveIssueChanges(vm, uri, id, Issue){
+
+		if (debug) {
+			console.log("Saving: " + vm.issue);
+		}
+
+		// set priority manually since it's nested
+		//vm.issue.priority = vm.issueType.selected.id;
+		//vm.issue.priority = vm.issue.priority.id;
+		console.log("priority: " + vm.issue.priority);
+
+		vm.issue.author_id = vm.USER_ID; // temporary solution
+
+		//Issue.patch(uri + id, vm.edit)
+		Issue.save(uri + id, vm.issue)
+			.success(function(data, status, headers, config) {
+				if (debug) {
+					//console.log("Issue Index: " + vm.getIssueIndex(id));
+					console.log("Issue saved");
+				}		
+
+				// update the view element
+				vm.updateIssue(id, vm.getIssueIndex(id));
+				//vm.issue = {};
+				vm.submitted = false;
+			})
+			.error(function(data, status, headers, config) {
+				if (debug) {
+					console.log("Shit");
+				}
+
+				vm.submitted = false;
+			});
+
+	}
 
 	/** 
 	 * Remove an issue.
@@ -137,22 +229,23 @@ MainController
 	 * @param int id
 	 * @return boolean
 	 */	
-	$scope.deleteIssue = function(id) {
+	function deleteIssue(vm, uri, id, Issue) {
 
 		if (debug) {
 			console.log("Deleting item with id: " + id);
 		}
 		
 
-		Issue.destroy(API_ISSUE_URL, id)
+		Issue.destroy(uri, id)
 			.success(function(data, status, headers, config) {
 
 				if (debug) {
 					console.log("Success: Item removed from list.");
 					console.log(data);
 				}
-					
-				$scope.removeIssueFromView(id);
+
+				vm.removeIssueFromView(id);
+
 				return true;
 			})
 			.error(function(data, status, headers, config) {
@@ -165,46 +258,34 @@ MainController
 				
 				return false;
 			});
-	};
+	}
 
-	
 	/**
-	 * Get the view issue index.
+	 * Get the view's issue index.
 	 *
 	 * @param int id
 	 * @return int
 	 */
-	$scope.getIssueIndex = function(id) {
-		var indexFirstIssue = 0;
+	function getIssueIndex(vm, id) {
 		var indexIssueInArray = 0;
 
 		
 		// Search for the item.
-		for (var i = indexFirstIssue; i < $scope.issues.length; i++) {
-			if ($scope.issues[i].id == id) {
+		for (var i = 0; i < vm.issues.length; i++) {
+			if (vm.issues[i].id == id) {
 				indexIssueInArray = i;
+
+				console.log("index found: " + indexIssueInArray);
+				break;
+
+			} else {
+				console.log("can't find index");
 			}
 		}
 
 		return indexIssueInArray;
 
-	};
-
-
-	/** 
-	 * Update a single issue view.
-	 *
-	 * @param int id
-	 * @param int issueIndex 
-	 */
-	$scope.updateIssue = function(id, issueIndex) {
-		Issue.get(API_ISSUE_URL + id)
-			.success(function(data, status, headers, config) {
-				$scope.issues[issueIndex] = data;
-				
-			});
-			// no error handling in here
 	}
 
-});
+})();
 

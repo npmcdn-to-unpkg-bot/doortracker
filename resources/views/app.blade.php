@@ -19,8 +19,6 @@
       <ul class="nav navbar-nav">
 
          <li><a href="#/">Home</a></li>
-	<li>	<a class="btn big-login" data-toggle="modal" href="javascript:void(0)" onclick="openLoginModal();">Log in</a> </li>
-                <li> <a class="btn big-register" data-toggle="modal" href="javascript:void(0)" onclick="openRegisterModal();">Register</a> </li>
       </ul>
 
       <form class="navbar-form navbar-left" role="search">
