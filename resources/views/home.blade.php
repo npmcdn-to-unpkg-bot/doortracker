@@ -60,6 +60,7 @@
 
 
 <link href="app/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="/assets/css/style.css" rel="stylesheet">
 <!--
 <link rel="stylesheet" href="app/lib/bootstrap-material-design/dist/css/bootstrap-material-design.min.css">
 -->

@@ -18,6 +18,7 @@
         @section('styles')
 		
 		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+        
 
         @show        
     </head>
@@ -50,7 +51,7 @@
               </form>
 
               <ul class="nav navbar-nav navbar-right">
-                 <li><a href="/compose">New Item</a></li>
+                 <li><a href="/compose" class="plus">+</a></li>
                  <li class="dropdown">
                     <a href="" class="dropdown-toggle" data-toggle="dropdown">User <b class="caret"></b></a>
                     <ul class="dropdown-menu">

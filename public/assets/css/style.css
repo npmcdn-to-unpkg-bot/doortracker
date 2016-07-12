@@ -1,0 +1,50 @@
+
+
+.dashboard-issue .dashboard-cell {
+    border-bottom: 1px solid #d7d7d7;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+ .state {
+    font-size: 24px;
+    line-height: 10px;
+    height: 27px;
+    padding-top: 8px;
+    width: 180px;
+display: inline-block;
+     background-color: red; 
+     padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.428571429;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+       -o-user-select: none;
+          user-select: none;
+}
+}
+
+.critical {
+    background: #952715;
+}
+
+.trivial {
+    background: ##ffcc00;
+}
+
+a{
+    color: white;
+}
+
+.plus{
+    font-size: 30px;
+}
